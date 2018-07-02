@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation"
+		value="false" />
+	<constant name="struts.devMode" value="false" />
+
+	<package name="default" extends="struts-default">
+
+		<action name="empLogin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empLogin">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+			<result name="login">/WEB-INF/home/welcome.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
+
+		<action name="logout"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction" method="logout">
+			<result name="success">index.jsp</result>
+		</action>
+
+		<action name="home"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction">
+			<result name="success">/WEB-INF/home/welcome.jsp</result>
+		</action>
+		
+		<!-- 管理画面へ　スタット -->
+		<action name="empManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction">
+			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
+		</action>		
+		<action name="departmentManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction">
+			<result name="success">/WEB-INF/departmentInfo/list.jsp</result>
+		</action>		
+		<action name="postManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction">
+			<result name="success">/WEB-INF/postInfo/list.jsp</result>
+		</action>		
+		<action name="ekiManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction">
+			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+		</action>		
+		<action name="ekiOperatorManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction">
+			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+		</action>		
+		<action name="ekiLineManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiLineAction">
+			<result name="success">/WEB-INF/ekiLineInfo/list.jsp</result>
+		</action>
+		<!-- 管理画面へ　エンド-->
+
+
+		<!-- 作成　スタット -->
+		<action name="empInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empInsert">			
+			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
+			<result name="error">/WEB-INF/employeeInfo/list.jsp</result>
+		</action>		
+		<action name="departmentInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
+			method="departmentInsert">
+			<result name="success">/WEB-INF/departmentInfo/list.jsp</result>
+			<result name="error">/WEB-INF/departmentInfo/list.jsp</result>
+		</action>		
+		<action name="postInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction"
+			method="postInsert">
+			<result name="success">/WEB-INF/postInfo/list.jsp</result>
+			<result name="error">/WEB-INF/postInfo/list.jsp</result>
+		</action>	
+		<action name="ekiOperatorInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction"
+			method="ekiOperatorInsert">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">2097152</param>
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg
+				</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+			<result name="error">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+		</action>		
+		<action name="ekiLineInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiLineAction"
+			method="ekiLineInsert">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">2097152</param>
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg
+				</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success">/WEB-INF/ekiLineInfo/list.jsp</result>
+			<result name="error">/WEB-INF/ekiLineInfo/list.jsp</result>
+		</action>			
+		<action name="tranPortInsert"
+			class="com.ansur.ems_ansur_ssmybatis.actions.TransporationAction"
+			method="transportInsert">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+			<result name="error">/WEB-INF/employeeInfo/empPage.jsp</result>
+		</action>
+		<!-- 作成　エンド -->
+		
+		
+		
+		<!--編集画面へ　スタット-->
+		<action name="empEditByAdmin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empEditByAdminPage">
+			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>
+		</action>				
+		<action name="empEdit"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empEditPage">
+			<result name="success">/WEB-INF/employeeInfo/empEdit.jsp</result>
+		</action>
+		<action name="departmentEdit"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
+			method="departmentEditPage">
+			<result name="success">/WEB-INF/departmentInfo/edit.jsp</result>
+		</action>
+		<action name="postEdit"
+			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction"
+			method="postEditPage">
+			<result name="success">/WEB-INF/postInfo/edit.jsp</result>
+		</action>
+		<action name="ekiOperatorEdit"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction"
+			method="ekiOperatorEditPage">
+			<result name="success">/WEB-INF/ekiOperatorInfo/edit.jsp</result>
+		</action>
+		<action name="ekiLineEdit"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiLineAction"
+			method="ekiLineEditPage">
+			<result name="success">/WEB-INF/ekiLineInfo/edit.jsp</result>
+		</action>
+		<!-- 編集画面へ　エンド -->
+		
+		
+		<!-- 更新スタット -->
+		<action name="empUpdate"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empUpdate">
+			<result name="success">/WEB-INF/employeeInfo/empEdit.jsp</result>			
+		</action>
+		<action name="empUpdateByAdmin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empUpdateByAdmin">
+			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>
+			<result name="error">/WEB-INF/employeeInfo/edit.jsp</result>
+		</action>		
+		<action name="empPasswordChangeByAdmin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empPasswordChangeByAdmin">
+			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>			
+		</action>
+		<action name="empPasswordChange"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empPasswordChange">
+			<result name="success">/WEB-INF/employeeInfo/empEdit.jsp</result>			
+		</action>		
+		<action name="empPhotoChange"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empPhotoChange">
+			<result name="success">/WEB-INF/employeeInfo/empEdit.jsp</result>			
+		</action>		
+		<action name="updateCancel"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="updateCancel">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+		</action>
+				
+		<action name="departmentUpdate"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
+			method="departmentUpdate">
+			<result name="success">/WEB-INF/departmentInfo/edit.jsp</result>
+			<result name="error">/WEB-INF/departmentInfo/edit.jsp</result>
+		</action>
+		
+		<action name="postUpdate"
+			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction"
+			method="postUpdate">
+			<result name="success">/WEB-INF/postInfo/edit.jsp</result>
+			<result name="error">/WEB-INF/postInfo/edit.jsp</result>
+		</action>
+		
+		<action name="ekiOperatorUpdate"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction"
+			method="ekiOperatorUpdate">
+			<result name="success">/WEB-INF/ekiOperatorInfo/edit.jsp</result>
+			<result name="error">/WEB-INF/ekiOperatorInfo/edit.jsp</result>
+		</action>		
+		<action name="ekiOperatorPhotoChange"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction"
+			method="ekiOperatorPhotoChange">
+			<result name="success">/WEB-INF/ekiOperatorInfo/edit.jsp</result>
+				
+		</action>
+		<!-- 更新エンド -->
+		
+		
+		<!-- 削除　スタット -->
+		<action name="empDelete"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empDelete">
+			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
+		</action>		
+		<action name="departmentDelete"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
+			method="departmentDelete">
+			<result name="success">/WEB-INF/departmentInfo/list.jsp</result>
+		</action>		
+		<action name="postDelete"
+			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction"
+			method="postDelete">
+			<result name="success">/WEB-INF/postInfo/list.jsp</result>
+		</action>
+		<action name="ekiOperatorDelete"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction"
+			method="ekiOperatorDelete">
+			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+		</action>
+		<!-- 削除　エンド -->
+
+	</package>
+
+</struts>
