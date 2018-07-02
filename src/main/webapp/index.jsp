@@ -10,7 +10,7 @@
 	<div style="widht: 100%;">
 		<div style="text-align: center;">
 			<h2>株式会社アンスール</h2>
-			<h3>従業員管理システム</h3>
+			<h3>従業員管理システムsadfsda</h3>
 		</div>
 		<div style="width: 40%; border: 1px solid gray; margin: 5% auto;">
 			<s:form action="empLogin">
