@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +27,16 @@ public class FileServlet extends HttpServlet {
     // Actions ------------------------------------------------------------------------------------
 
     public void init() throws ServletException {
-
+    	Properties p = new Properties();
+    	try {
+			p.load(FileServlet.class.getClassLoader().getResourceAsStream("application.properties"));
+			filePath = p.getProperty("label.path");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         // Define base path somehow. You can define it as init-param of the servlet.
-        this.filePath = "C:\\Users\\ansur02\\MawPaingThu\\FileServer";
+      /*  this.filePath = "C:\\Users\\ansur02\\MawPaingThu\\FileServer";*/
 
         // In a Windows environment with the Applicationserver running on the
         // c: volume, the above path is exactly the same as "c:\files".
