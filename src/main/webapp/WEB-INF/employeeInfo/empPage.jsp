@@ -158,6 +158,16 @@
 			</s:form>
 		</div>
 		<div
+			style="width: 90%; margin: 1% auto; clear: right; text-align: right;">
+			<a style="font-size: 12px; text-align: right; display: block;"
+				href="<s:url action="createExcel.action" >
+										<s:param name="emp_id">${employee.emp_id}</s:param>
+										
+									</s:url>
+							">Download Excel</a>
+			
+		</div>
+		<div
 			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
 			<h4 style="text-align: center;">株式会社アンスール交通費支払申請書</h4>
 			<table style="width: 98%; margin: 1% auto; border: 1px solid gray;">
@@ -172,8 +182,12 @@
 					<td style="width: 15%;">申請者氏名：</td>
 					<td style="width: 30%;">${employee.name}</td>
 					<td style="width: 10%;"></td>
-					<td style="width: 15%; text-align: right;">残ったチャージ金額：</td>
-					<td style="width: 30%;">${employee.left_charge}</td>
+					<td style="width: 15%; text-align: right;">
+						<!-- 残ったチャージ金額： -->
+					</td>
+					<td style="width: 30%;">
+						<%-- ${employee.left_charge} --%>
+					</td>
 				</tr>
 				<tr>
 					<td style="width: 15%;"></td>
@@ -215,61 +229,5 @@
 			</table>
 		</div>
 	</div>
-
-	<%-- <div style="widht: 100%;">
-		<div style="width: 50%; margin: 1px auto;">
-			<s:form action="empInsert">
-				<table style="border: 1px solid gray; width: 50%; margin: 2% auto;">
-					<tr>
-						<td><s:textfield name="user.name" label="Employee Name" /></td>
-					</tr>
-					<tr>
-						<td><s:password name="user.password" label="Password" /></td>
-					</tr>
-					<tr>
-						<td><s:textfield name="user.email" label="Email" /></td>
-					</tr>
-					<tr>
-						<td><s:textfield name="user.address" label="Address" /></td>
-					</tr>
-					<tr>
-						<td><s:submit value="新規" style="width:100%;" /></td>
-					</tr>
-				</table>
-
-
-
-			</s:form>
-		</div>
-		<div style="width: 75%; margin: 2% auto; clear: right;">
-			<hr />
-
-		</div>
-		<div style="width: 50%; margin: 1px auto;">
-			<table style="border: 1px solid gray; width: 100%;">
-				<tr style="background-color: gray;">
-					<th>数</th>
-					<th>名前</th>
-					<th>メール</th>
-					<th>住所</th>
-				</tr>
-				<c:forEach var="user" varStatus="s" items="${userList}">
-					<tr>
-						<td style="text-align: center;">${s.index+1}</td>
-						<td><c:out value="${user.name }" /></td>
-						<td><c:out value="${user.email }" /></td>
-						<td><c:out value="${user.address }" /></td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-
-
-	</div> --%>
-
-
-
-
-
 </body>
 </html>

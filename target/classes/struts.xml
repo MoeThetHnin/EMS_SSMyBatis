@@ -230,6 +230,15 @@
 			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
 		</action>
 		<!-- 削除 エンド -->
+		
+		
+		
+		
+		<action name="createExcel"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="createExcel">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+		</action>
 
 	</package>
 
