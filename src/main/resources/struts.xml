@@ -239,6 +239,13 @@
 			method="createExcel">
 			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
 		</action>
+		
+		
+		<action name="getTranspoListByMonth"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction" 
+			method="getTranspoListByMonth">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+		</action>
 
 	</package>
 

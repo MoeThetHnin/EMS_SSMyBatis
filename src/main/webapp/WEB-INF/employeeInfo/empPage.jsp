@@ -162,10 +162,11 @@
 			<a style="font-size: 12px; text-align: right; display: block;"
 				href="<s:url action="createExcel.action" >
 										<s:param name="emp_id">${employee.emp_id}</s:param>
-										
+										<s:param name="p2">${employee.currentDate}</s:param>
 									</s:url>
-							">Download Excel</a>
-			
+							">Download
+				Excel</a>
+
 		</div>
 		<div
 			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
@@ -173,7 +174,7 @@
 			<table style="width: 98%; margin: 1% auto; border: 1px solid gray;">
 				<tr>
 					<td style="width: 15%;">申請年月日:</td>
-					<td style="width: 30%;">${emplooyee.currentMonth}</td>
+					<td style="width: 30%;">${employee.currentDate}</td>
 					<td style="width: 10%;"></td>
 					<td style="width: 15%; text-align: right;">総チャージ金額：</td>
 					<td style="width: 30%;">${employee.total_charge}</td>
@@ -210,7 +211,7 @@
 					<th style="width: 40%;">備考</th>
 
 				</tr>
-				<c:forEach var="e" varStatus="s" items="${transpoList}">
+				<c:forEach var="e" varStatus="s" items="${monthlyTranspoList}">
 					<tr style="text-align: center; font-size: 12px;">
 						<td style="width: 10%;"><fmt:formatDate value="${e.t_date}"
 								pattern="dd-MM-yy" /></td>
@@ -227,6 +228,24 @@
 					</tr>
 				</c:forEach>
 			</table>
+			<div style="width: 98%; margin: 1%; text-align: center;">
+				<%
+					for (int i = 1; i < 13; i++) {
+				%>
+				<a style="font-size: 12px; display: block;"
+					href="<s:url action="getTranspoListByMonth.action" >
+										<s:param name="p1">${employee.emp_id}</s:param>
+										<s:param name="p2">0<%=i %></s:param>
+									</s:url>
+							">
+					<label
+					style="border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
+				</a>
+				<%
+					}
+				%>
+			</div>
+
 		</div>
 	</div>
 </body>

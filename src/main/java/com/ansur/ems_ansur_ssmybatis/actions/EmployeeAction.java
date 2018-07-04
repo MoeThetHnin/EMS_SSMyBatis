@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -57,6 +58,7 @@ public final class EmployeeAction {
 
 	private List<Employee> employeeList;
 	private List<Transporation> transpoList;
+	private List<Transporation> monthlyTranspoList;
 	private List<EkiLine> ekiLineList;
 	private List<EkiOperator> ekiOperatorList;
 	private List<Department> departmentList;
@@ -70,12 +72,29 @@ public final class EmployeeAction {
 	private String errorMessage_three;
 
 	private String filePath;
+	private String month;
+	private String year;
+	
+	DateFormat monthFormat = new SimpleDateFormat("MM");
+	DateFormat yearFormat = new SimpleDateFormat("yyyy");
 
 	public String execute() {
 		employeeList = empMapper.getAllEmployee();// DBから社員リストを取るために
 		getTwoRequiredList();
 		employee = new Employee();
 		employee.setEmp_id(autoCreateEmpId());// 新社員を登録ために社員番号を自動的に出るために
+		return ActionSupport.SUCCESS;
+	}
+	
+	public String getTranspoListByMonth() {
+		HttpServletRequest request =  ServletActionContext.getRequest();
+		
+		month = request.getParameter("p2");
+		year = yearFormat.format(new Date());
+		String empId = request.getParameter("p1");
+		employee = empMapper.getEmployeeByEmpId(request.getParameter("p1"));
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
+		employee.setCurrentDate(month+"/"+year);
 		return ActionSupport.SUCCESS;
 	}
 
@@ -88,8 +107,13 @@ public final class EmployeeAction {
 		try {
 			if (!employee.equals(null)) {
 				ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
-				transpoList = tMapper.getTranspoListByEmpId(getEmployee().getEmp_id());// 社員の交通費の情報を取るために
-				setLogoNameList(transpoList);
+				month = monthFormat.format(new Date());
+				year = yearFormat.format(new Date());
+				
+				/*transpoList = tMapper.getTranspoListByEmpId(employee.getEmp_id());*/
+				monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),employee.getEmp_id());
+				
+				/*setLogoNameList(transpoList);*/
 
 				// 総チャージ金額を計算
 				// 残ったチャージ金額計算
@@ -104,6 +128,8 @@ public final class EmployeeAction {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
+				
+				employee.setCurrentDate(month+"/"+year);
 
 				return ActionSupport.SUCCESS;
 			}
@@ -265,8 +291,14 @@ public final class EmployeeAction {
 		String headTitle[] = { "月日", "チャージ", "車種", "使った線", "乗車範囲", "", "", "目的", "来る費", "帰る費", "備考" };
 		int columnWidth[] = { 3000, 2500, 6000, 5000, 3000, 1500, 3000, 2000, 2000, 2000, 6000 };
 		HttpServletRequest request = ServletActionContext.getRequest();
-		transpoList = tMapper.getTranspoListByEmpId(request.getParameter("emp_id"));
+		month = request.getParameter("p2").split("/")[0];
+		year = request.getParameter("p2").split("/")[1];
+		String empId = request.getParameter("emp_id");
+		
+		
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
 		employee = empMapper.getEmployeeByEmpId(request.getParameter("emp_id"));
+		employee.setCurrentDate(month+"/"+year);
 		Properties p = new Properties();
 		try {
 			p.load(FileServlet.class.getClassLoader().getResourceAsStream("application.properties"));
@@ -280,7 +312,7 @@ public final class EmployeeAction {
 		File file = new File(excelFolderPath);
 		HSSFWorkbook hwb = null;
 		HSSFSheet sheet = null;
-		String thisMonth = "July";
+		
 		if (file.exists()) {
 			try {
 				FileInputStream is = new FileInputStream(file);
@@ -289,16 +321,16 @@ public final class EmployeeAction {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			if(hwb.getSheetName(hwb.getNumberOfSheets()-1).equals(thisMonth)) {
-				sheet = hwb.getSheet(thisMonth);
+			if(hwb.getSheetName(hwb.getNumberOfSheets()-1).equals(year+"年 "+month+"月")) {
+				sheet = hwb.getSheet(year+"年 "+month+"月");
 			}else {
-			sheet = hwb.createSheet(thisMonth);
+			sheet = hwb.createSheet(year+"年 "+month+"月");
 			}
 		} else {
 
 			hwb = new HSSFWorkbook();
 
-			sheet = hwb.createSheet(thisMonth);
+			sheet = hwb.createSheet(year+"年 "+month+"月");
 		}
 		HSSFCellStyle style = hwb.createCellStyle();
 
@@ -317,17 +349,12 @@ public final class EmployeeAction {
 		for (int i = 0; i < columnWidth.length; i++) {
 			sheet.setColumnWidth(i, columnWidth[i]);
 		}
-		/*
-		 * sheet.setColumnWidth(0, 3000); sheet.setColumnWidth(1, 2500);
-		 * sheet.setColumnWidth(2, 6000); sheet.setColumnWidth(3, 5000);
-		 * sheet.setColumnWidth(4, 3000); sheet.setColumnWidth(5, 1500);
-		 * sheet.setColumnWidth(6, 3000); sheet.setColumnWidth(7, 2000);
-		 * sheet.setColumnWidth(8, 2000); sheet.setColumnWidth(9, 2000);
-		 * sheet.setColumnWidth(10, 6000);
-		 */
+		/*sheet.setColumnWidth(0, 3000);*/
+	
+
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int index = 1;
-		for (Transporation t : transpoList) {
+		for (Transporation t : monthlyTranspoList) {
 			rowhead = sheet.createRow(index);
 			rowhead.createCell(0).setCellValue(df.format(t.getT_date()));
 			rowhead.createCell(1).setCellValue(t.getT_charge());
@@ -437,6 +464,15 @@ public final class EmployeeAction {
 
 	public void setTranspoList(List<Transporation> transpoList) {
 		this.transpoList = transpoList;
+	}
+	
+
+	public List<Transporation> getMonthlyTranspoList() {
+		return monthlyTranspoList;
+	}
+
+	public void setMonthlyTranspoList(List<Transporation> monthlyTranspoList) {
+		this.monthlyTranspoList = monthlyTranspoList;
 	}
 
 	public List<EkiLine> getEkiLineList() {

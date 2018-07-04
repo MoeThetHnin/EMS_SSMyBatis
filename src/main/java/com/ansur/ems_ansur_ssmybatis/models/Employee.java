@@ -28,6 +28,8 @@ public final class Employee {
 	private String new_password;
 	private String confirm_password;
 	
+	private String currentDate;
+	
 	public int getId() {
 		return id;
 	}
@@ -142,6 +144,14 @@ public final class Employee {
 	public void setConfirm_password(String confirm_password) {
 		this.confirm_password = confirm_password;
 	}
+	public String getCurrentDate() {
+		return currentDate;
+	}
+	public void setCurrentDate(String currentDate) {
+		this.currentDate = currentDate;
+	}
+	
+	
 	
 
 	

@@ -46,6 +46,10 @@ public interface TransporationMapper {
 	Integer totalCharge();
 
 
+	@Select("select * from transporation where extract(month from t_date)=#{param1} and extract(year from t_date)=#{param2} and emp_id=#{param3}")
+	List<Transporation> getMonthlyTranspoListByEmpId(Integer param1, Integer integer, String param3);
+
+
 
 
 }
