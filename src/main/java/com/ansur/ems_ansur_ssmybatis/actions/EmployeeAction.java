@@ -20,8 +20,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +90,7 @@ public final class EmployeeAction {
 		month = request.getParameter("p2");
 		year = yearFormat.format(new Date());
 		String empId = request.getParameter("p1");
+		ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
 		employee = empMapper.getEmployeeByEmpId(request.getParameter("p1"));
 		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
 		employee.setCurrentDate(month+"/"+year);
@@ -295,7 +294,7 @@ public final class EmployeeAction {
 		year = request.getParameter("p2").split("/")[1];
 		String empId = request.getParameter("emp_id");
 		
-		
+		ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
 		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
 		employee = empMapper.getEmployeeByEmpId(request.getParameter("emp_id"));
 		employee.setCurrentDate(month+"/"+year);
