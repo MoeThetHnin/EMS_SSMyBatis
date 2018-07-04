@@ -1,48 +1,42 @@
 package com.ansur.ems_ansur_ssmybatis.actions;
 
-import java.awt.Font;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ansur.ems_ansur_ssmybatis.models.Transporation;
-import com.ansur.ems_ansur_ssmybatis.models.TransporationMapper;
 import com.ansur.ems_ansur_ssmybatis.models.Department;
 import com.ansur.ems_ansur_ssmybatis.models.DepartmentMapper;
 import com.ansur.ems_ansur_ssmybatis.models.EkiLine;
-
 import com.ansur.ems_ansur_ssmybatis.models.EkiOperator;
 import com.ansur.ems_ansur_ssmybatis.models.EkiOperatorMapper;
 import com.ansur.ems_ansur_ssmybatis.models.Employee;
 import com.ansur.ems_ansur_ssmybatis.models.EmployeeMapper;
 import com.ansur.ems_ansur_ssmybatis.models.Post;
 import com.ansur.ems_ansur_ssmybatis.models.PostMapper;
+import com.ansur.ems_ansur_ssmybatis.models.Transporation;
+import com.ansur.ems_ansur_ssmybatis.models.TransporationMapper;
+import com.ansur.ems_ansur_ssmybatis.services.FileServlet;
 import com.opensymphony.xwork2.ActionSupport;
 
 public final class EmployeeAction {
@@ -75,7 +69,7 @@ public final class EmployeeAction {
 	private String errorMessage_two;
 	private String errorMessage_three;
 
-	private String[] columns = { "Name", "Age", "Email" };
+	private String filePath;
 
 	public String execute() {
 		employeeList = empMapper.getAllEmployee();// DBから社員リストを取るために
@@ -268,14 +262,44 @@ public final class EmployeeAction {
 	}
 
 	public String createExcel() throws IOException {
-		String headTitle[] = { "月日", "チャージ", "車種", "使った線", "乗車範囲","","", "目的", "来る費","帰る費", "備考" };
+		String headTitle[] = { "月日", "チャージ", "車種", "使った線", "乗車範囲", "", "", "目的", "来る費", "帰る費", "備考" };
+		int columnWidth[] = { 3000, 2500, 6000, 5000, 3000, 1500, 3000, 2000, 2000, 2000, 6000 };
 		HttpServletRequest request = ServletActionContext.getRequest();
 		transpoList = tMapper.getTranspoListByEmpId(request.getParameter("emp_id"));
-		String filePath = "C:\\Users\\ansur02\\MawPaingThu\\FileServer\\test.xls";
+		employee = empMapper.getEmployeeByEmpId(request.getParameter("emp_id"));
+		Properties p = new Properties();
+		try {
+			p.load(FileServlet.class.getClassLoader().getResourceAsStream("application.properties"));
+			filePath = p.getProperty("label.path");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String excelFolderPath = filePath + "\\ExcelFiles\\" + employee.getName() + ".xls";
 
-		HSSFWorkbook hwb = new HSSFWorkbook();
-		HSSFSheet sheet = hwb.createSheet();
+		File file = new File(excelFolderPath);
+		HSSFWorkbook hwb = null;
+		HSSFSheet sheet = null;
+		String thisMonth = "July";
+		if (file.exists()) {
+			try {
+				FileInputStream is = new FileInputStream(file);
+				hwb = new HSSFWorkbook(is);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if(hwb.getSheetName(hwb.getNumberOfSheets()-1).equals(thisMonth)) {
+				sheet = hwb.getSheet(thisMonth);
+			}else {
+			sheet = hwb.createSheet(thisMonth);
+			}
+		} else {
 
+			hwb = new HSSFWorkbook();
+
+			sheet = hwb.createSheet(thisMonth);
+		}
 		HSSFCellStyle style = hwb.createCellStyle();
 
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
@@ -287,26 +311,23 @@ public final class EmployeeAction {
 			cell.setCellValue(headTitle[i]);
 			cell.setCellStyle(style);
 		}
-		
-		
+
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 4, 6));
 
-		sheet.setColumnWidth(0, 3000);
-		sheet.setColumnWidth(1, 2500);
-		sheet.setColumnWidth(2, 6000);
-		sheet.setColumnWidth(3, 5000);
-		sheet.setColumnWidth(4, 3000);
-		sheet.setColumnWidth(5, 1500);
-		sheet.setColumnWidth(6, 3000);
-		sheet.setColumnWidth(7, 2000);
-		sheet.setColumnWidth(8, 2000);
-		sheet.setColumnWidth(9, 2000);
-		sheet.setColumnWidth(10, 6000);
-
+		for (int i = 0; i < columnWidth.length; i++) {
+			sheet.setColumnWidth(i, columnWidth[i]);
+		}
+		/*
+		 * sheet.setColumnWidth(0, 3000); sheet.setColumnWidth(1, 2500);
+		 * sheet.setColumnWidth(2, 6000); sheet.setColumnWidth(3, 5000);
+		 * sheet.setColumnWidth(4, 3000); sheet.setColumnWidth(5, 1500);
+		 * sheet.setColumnWidth(6, 3000); sheet.setColumnWidth(7, 2000);
+		 * sheet.setColumnWidth(8, 2000); sheet.setColumnWidth(9, 2000);
+		 * sheet.setColumnWidth(10, 6000);
+		 */
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int index = 1;
 		for (Transporation t : transpoList) {
-
 			rowhead = sheet.createRow(index);
 			rowhead.createCell(0).setCellValue(df.format(t.getT_date()));
 			rowhead.createCell(1).setCellValue(t.getT_charge());
@@ -322,7 +343,7 @@ public final class EmployeeAction {
 			index++;
 		}
 
-		FileOutputStream fileOut = new FileOutputStream(filePath);
+		FileOutputStream fileOut = new FileOutputStream(excelFolderPath);
 		hwb.write(fileOut);
 		fileOut.close();
 		return ActionSupport.SUCCESS;
