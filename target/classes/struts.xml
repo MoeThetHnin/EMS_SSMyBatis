@@ -109,6 +109,12 @@
 			<result name="error">/WEB-INF/employeeInfo/empPage.jsp</result>
 		</action>
 		<!-- 作成 エンド -->
+		
+		<action name="empShow"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empShow">
+			<result name="success">/WEB-INF/employeeInfo/show.jsp</result>
+		</action>
 
 
 
@@ -237,7 +243,13 @@
 		<action name="createExcel"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="createExcel">
-			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+			<!-- <result name="success">/WEB-INF/employeeInfo/show.jsp</result> -->
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="${filename}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
 		</action>
 		
 		
@@ -245,7 +257,9 @@
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction" 
 			method="getTranspoListByMonth">
 			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+			<result name="login">/WEB-INF/employeeInfo/show.jsp</result>
 		</action>
+		
 
 	</package>
 

@@ -99,9 +99,16 @@
 				<c:forEach var="e" varStatus="s" items="${employeeList}">
 					<tr>
 						<td style="text-align: center;">${s.index+1}</td>
-						<td><img style="width: 50px; height: 50px;"
-							src="file/EmployeeProfilePicture/${e.img_name}"
-							title="${e.name }"></td>
+						<td><a
+							style="font-size: 12px; text-align: right; display: block;"
+							href="<s:url action="empShow.action" >
+										<s:param name="p1">${e.emp_id}</s:param>										
+									</s:url>
+							">
+								<img style="width: 50px; height: 50px;"
+								src="file/EmployeeProfilePicture/${e.img_name}"
+								title="${e.name }">
+						</a></td>
 						<td>${e.emp_id }</td>
 						<td>${e.name }</td>
 						<td>${e.department }</td>

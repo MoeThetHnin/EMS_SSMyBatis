@@ -1,9 +1,11 @@
 package com.ansur.ems_ansur_ssmybatis.actions;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -68,11 +71,16 @@ public final class EmployeeAction {
 	private String errorMessage_one;
 	private String errorMessage_two;
 	private String errorMessage_three;
+	
+	private InputStream fileInputStream;
+	
+	private String filename;
+	
 
 	private String filePath;
 	private String month;
 	private String year;
-	
+
 	DateFormat monthFormat = new SimpleDateFormat("MM");
 	DateFormat yearFormat = new SimpleDateFormat("yyyy");
 
@@ -83,17 +91,25 @@ public final class EmployeeAction {
 		employee.setEmp_id(autoCreateEmpId());// 新社員を登録ために社員番号を自動的に出るために
 		return ActionSupport.SUCCESS;
 	}
-	
+
 	public String getTranspoListByMonth() {
-		HttpServletRequest request =  ServletActionContext.getRequest();
-		
+		HttpServletRequest request = ServletActionContext.getRequest();
+
 		month = request.getParameter("p2");
 		year = yearFormat.format(new Date());
 		String empId = request.getParameter("p1");
 		ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
 		employee = empMapper.getEmployeeByEmpId(request.getParameter("p1"));
-		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
-		employee.setCurrentDate(month+"/"+year);
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month), Integer.valueOf(year), empId);
+		employee.setCurrentDate(month + "/" + year);
+		try {
+			if (!request.getParameter("p3").equals(null)) {
+				return ActionSupport.LOGIN;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		return ActionSupport.SUCCESS;
 	}
 
@@ -108,11 +124,12 @@ public final class EmployeeAction {
 				ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
 				month = monthFormat.format(new Date());
 				year = yearFormat.format(new Date());
-				
-				/*transpoList = tMapper.getTranspoListByEmpId(employee.getEmp_id());*/
-				monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),employee.getEmp_id());
-				
-				/*setLogoNameList(transpoList);*/
+
+				/* transpoList = tMapper.getTranspoListByEmpId(employee.getEmp_id()); */
+				monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month), Integer.valueOf(year),
+						employee.getEmp_id());
+
+				/* setLogoNameList(transpoList); */
 
 				// 総チャージ金額を計算
 				// 残ったチャージ金額計算
@@ -127,8 +144,8 @@ public final class EmployeeAction {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
-				employee.setCurrentDate(month+"/"+year);
+
+				employee.setCurrentDate(month + "/" + year);
 
 				return ActionSupport.SUCCESS;
 			}
@@ -141,6 +158,34 @@ public final class EmployeeAction {
 
 	// ログアウトのために
 	public String logout() {
+		return ActionSupport.SUCCESS;
+	}
+
+	public String empShow() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+
+		month = monthFormat.format(new Date());
+		year = yearFormat.format(new Date());
+		String empId = request.getParameter("p1");
+
+		employee = empMapper.getEmployeeByEmpId(empId);
+
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month), Integer.valueOf(year), empId);
+
+		// 総チャージ金額を計算
+		// 残ったチャージ金額計算
+		// 支払い申請金額計算する
+		try {
+			int totalCharge = tMapper.totalCharge();
+			int total = tMapper.totalKuru(getEmployee().getEmp_id()) + tMapper.totalKaeru(getEmployee().getEmp_id());
+			employee.setTotal_charge(totalCharge);
+			employee.setLeft_charge(totalCharge - total);
+			employee.setTotal_pay(total);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		employee.setCurrentDate(month + "/" + year);
 		return ActionSupport.SUCCESS;
 	}
 
@@ -286,6 +331,7 @@ public final class EmployeeAction {
 		return ActionSupport.SUCCESS;
 	}
 
+	
 	public String createExcel() throws IOException {
 		String headTitle[] = { "月日", "チャージ", "車種", "使った線", "乗車範囲", "", "", "目的", "来る費", "帰る費", "備考" };
 		int columnWidth[] = { 3000, 2500, 6000, 5000, 3000, 1500, 3000, 2000, 2000, 2000, 6000 };
@@ -293,11 +339,11 @@ public final class EmployeeAction {
 		month = request.getParameter("p2").split("/")[0];
 		year = request.getParameter("p2").split("/")[1];
 		String empId = request.getParameter("emp_id");
-		
+
 		ekiOperatorList = eoMapper.getEONameAndNumberList();// 駅オペレーターリストを取るために
-		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month),Integer.valueOf(year),empId);
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month), Integer.valueOf(year), empId);
 		employee = empMapper.getEmployeeByEmpId(request.getParameter("emp_id"));
-		employee.setCurrentDate(month+"/"+year);
+		employee.setCurrentDate(month + "/" + year);
 		Properties p = new Properties();
 		try {
 			p.load(FileServlet.class.getClassLoader().getResourceAsStream("application.properties"));
@@ -311,25 +357,25 @@ public final class EmployeeAction {
 		File file = new File(excelFolderPath);
 		HSSFWorkbook hwb = null;
 		HSSFSheet sheet = null;
-		
+
 		if (file.exists()) {
 			try {
 				FileInputStream is = new FileInputStream(file);
 				hwb = new HSSFWorkbook(is);
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			if(hwb.getSheetName(hwb.getNumberOfSheets()-1).equals(year+"年 "+month+"月")) {
-				sheet = hwb.getSheet(year+"年 "+month+"月");
-			}else {
-			sheet = hwb.createSheet(year+"年 "+month+"月");
+			if (hwb.getSheetName(hwb.getNumberOfSheets() - 1).equals(year + "年 " + month + "月")) {
+				sheet = hwb.getSheet(year + "年 " + month + "月");
+			} else {
+				sheet = hwb.createSheet(year + "年 " + month + "月");
 			}
 		} else {
 
 			hwb = new HSSFWorkbook();
 
-			sheet = hwb.createSheet(year+"年 "+month+"月");
+			sheet = hwb.createSheet(year + "年 " + month + "月");
 		}
 		HSSFCellStyle style = hwb.createCellStyle();
 
@@ -348,8 +394,7 @@ public final class EmployeeAction {
 		for (int i = 0; i < columnWidth.length; i++) {
 			sheet.setColumnWidth(i, columnWidth[i]);
 		}
-		/*sheet.setColumnWidth(0, 3000);*/
-	
+		/* sheet.setColumnWidth(0, 3000); */
 
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int index = 1;
@@ -372,6 +417,13 @@ public final class EmployeeAction {
 		FileOutputStream fileOut = new FileOutputStream(excelFolderPath);
 		hwb.write(fileOut);
 		fileOut.close();
+		/*ByteArrayOutputStream obs = new ByteArrayOutputStream();
+		hwb.write(obs);
+		byte[] outArray = obs.toByteArray();
+		HttpServletResponse response = */
+		
+		fileInputStream = new FileInputStream(new File(filePath + "\\ExcelFiles\\" + employee.getName() + ".xls"));
+		filename = employee.getName()+".xls";
 		return ActionSupport.SUCCESS;
 	}
 
@@ -464,7 +516,6 @@ public final class EmployeeAction {
 	public void setTranspoList(List<Transporation> transpoList) {
 		this.transpoList = transpoList;
 	}
-	
 
 	public List<Transporation> getMonthlyTranspoList() {
 		return monthlyTranspoList;
@@ -561,5 +612,20 @@ public final class EmployeeAction {
 	public void setErrorMessage_three(String errorMessage_three) {
 		this.errorMessage_three = errorMessage_three;
 	}
+
+	public InputStream getFileInputStream() {
+		return fileInputStream;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	
+	
 
 }

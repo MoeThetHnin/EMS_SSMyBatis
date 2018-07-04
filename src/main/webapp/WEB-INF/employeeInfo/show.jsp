@@ -49,8 +49,8 @@
 						</td>
 					</tr>
 				</table>
-				<a style="font-size: 12px; text-align: right; display: block;"
-					href="<s:url action="empEdit.action" ><s:param name="emp_id">${employee.emp_id}</s:param></s:url>">編集</a>
+				<%-- <a style="font-size: 12px; text-align: right; display: block;"
+					href="<s:url action="empEdit.action" ><s:param name="emp_id">${employee.emp_id}</s:param></s:url>">編集</a> --%>
 			</div>
 			<h3 style="text-align: center;">${employee.name}</h3>
 			<h4 style="text-align: center;">${employee.emp_id}</h4>
@@ -64,100 +64,9 @@
 
 		<div
 			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
-			<h4 style="text-align: center;">株式会社アンスール交通費支払登録</h4>
-			<s:form action="tranPortInsert">
-				<input type="hidden" name="transpo.emp_id"
-					value="${employee.emp_id}" />
-				<table border="0" style="margin: 2% auto; width: 70%;">
-
-					<tr>
-						<td style="width: 20%">月日</td>
-						<td><input type="text" name="transpo.t_date" id="datepicker" /></td>
-						<td colspan="2"></td>
-					</tr>
-					<tr>
-						<td>チャージ</td>
-						<td><input type="text" name="transpo.t_charge" /></td>
-						<td colspan="2"></td>
-					</tr>
-					<%-- <tr>
-						<!-- <td style="width: 17%">車種</td> -->
-						<td><s:select list="subwayOperators" name="transpo.t_line"
-								label="車種" headerKey="-1" headerValue="使った地下鉄を選択" /></td>
-						<!-- <input type="text" name="transpo.t_line" /></td> -->
-					</tr> --%>
-
-					<tr>
-						<td>使ったオペレータ</td>
-						<td colspan="3"><c:forEach var="e" varStatus="s"
-								items="${ekiOperatorList}">
-								<input type="checkbox" name="transpo.t_operator"
-									value="${e.eo_name}">
-								<img style="width: 20px; height: 20px;"
-									src="file/EkiOperatorLogo/${e.eo_logo_name}">
-							</c:forEach></td>
-					</tr>
-					<tr>
-						<td>使った線</td>
-						<%-- <td colspan="3"><c:forEach var="employee" varStatus="s"
-								items="${ekiLineListMetro}">
-								<input type="checkbox" name="transpo.t_line"
-									value="${employee.el_line_logo_name}">
-								<img style="width: 20px; height: 20px;"
-									src="file/${employee.el_line_logo_name}">
-							</c:forEach></td> --%>
-						<td><input type="text" name="transpo.t_line" /></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td colspan="3"><c:forEach var="employee" varStatus="s"
-								items="${ekiLineListToei}">
-								<input type="checkbox" name="transpo.t_line"
-									value="${employee.el_line_logo_name}">
-								<img style="width: 20px; height: 20px;"
-									src="file/${employee.el_line_logo_name}">
-							</c:forEach></td>
-					</tr>
-					<tr>
-						<td>乗車範囲</td>
-						<td style="width: 20%;"><input type="text"
-							name="transpo.t_kuru_eki" /></td>
-						<td style="text-align: center;">&lt;=&gt;</td>
-						<td><input type="text" name="transpo.t_kaeru_eki" /></td>
-
-					</tr>
-
-					<tr>
-
-						<td>行く費</td>
-						<td><input type="text" name="transpo.t_kuru_charge" /></td>
-						<td style="text-align: right;">帰る費</td>
-						<td><input type="text" name="transpo.t_kaeru_charge" /></td>
-					<tr>
-					<tr>
-						<td>目標</td>
-						<!-- <td colspan="6"><input  style="width:100%;" type="text" name="transporation.t_purpose" /></td> -->
-						<td colspan="3"><textarea name="transpo.t_purpose"
-								style="width: 100%;"></textarea></td>
-					</tr>
-					<tr>
-						<td>備考</td>
-						<!-- <td colspan="6"><input style="width:100%;" type="text" name="transporation.t_remarks" /></td> -->
-						<td colspan="3"><textarea name="transpo.t_remarks"
-								style="width: 100%;"></textarea></td>
-					</tr>
-					<%-- <tr>
-					
-					<td colspan="7" align="right"><s:submit value="インサート" style="width:100%;" /></td>
-					</tr> --%>
-
-				</table>
-				<div style="margin: 2% auto; width: 50%; text-align: right;">
-					<s:submit value="インサート" style="text-align:right;" />
-				</div>
-			</s:form>
+			
 		</div>
-		<%-- <div
+		<div
 			style="width: 90%; margin: 1% auto; clear: right; text-align: right;">
 			<a style="font-size: 12px; text-align: right; display: block;"
 				href="<s:url action="createExcel.action" >
@@ -167,7 +76,7 @@
 							">Download
 				Excel</a>
 
-		</div> --%>
+		</div>
 		<div
 			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
 			<h4 style="text-align: center;">株式会社アンスール交通費支払申請書</h4>
@@ -236,6 +145,7 @@
 					href="<s:url action="getTranspoListByMonth.action" >
 										<s:param name="p1">${employee.emp_id}</s:param>
 										<s:param name="p2">0<%=i %></s:param>
+										<s:param name="p3">0</s:param>
 									</s:url>
 							">
 					<label
