@@ -51,7 +51,7 @@
 				
 				<h5>エクセルファイルをPDFファイルに変更する機能　(.xls to .pdf)</h5>
 				<s:form action="excelToPdf" enctype="multipart/form-data">
-					<s:file name="function.uploadImage"></s:file>
+					<s:file name="function.uploadImage" multiple="multiple"></s:file>
 					<s:submit value="PDFファイルに変更"></s:submit>
 				</s:form>
 			</div>
