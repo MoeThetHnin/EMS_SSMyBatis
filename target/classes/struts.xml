@@ -260,6 +260,17 @@
 			<result name="login">/WEB-INF/employeeInfo/show.jsp</result>
 		</action>
 		
+		<action name="excelToPdf"
+			class="com.ansur.ems_ansur_ssmybatis.actions.FunctionAction"
+			method="excelToPdf">
+			<result name="success" type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="${filename}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		
 
 	</package>
 

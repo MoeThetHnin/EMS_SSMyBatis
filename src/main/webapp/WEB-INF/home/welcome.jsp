@@ -46,6 +46,15 @@
 			
 			
 		</div>
+			<div style="width: 80%; margin: 1% auto; border: 1px solid gray; clear:left;">
+				<h4 style="text-align: center;">コンバータ</h4>
+				
+				<h5>エクセルファイルをPDFファイルに変更する機能　(.xls to .pdf)</h5>
+				<s:form action="excelToPdf" enctype="multipart/form-data">
+					<s:file name="function.uploadImage"></s:file>
+					<s:submit value="PDFファイルに変更"></s:submit>
+				</s:form>
+			</div>
 	</div>
 
 	<p>
