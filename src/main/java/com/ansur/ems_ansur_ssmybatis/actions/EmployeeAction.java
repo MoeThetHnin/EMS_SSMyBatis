@@ -71,11 +71,10 @@ public final class EmployeeAction {
 	private String errorMessage_one;
 	private String errorMessage_two;
 	private String errorMessage_three;
-	
+
 	private InputStream fileInputStream;
-	
+
 	private String filename;
-	
 
 	private String filePath;
 	private String month;
@@ -331,7 +330,6 @@ public final class EmployeeAction {
 		return ActionSupport.SUCCESS;
 	}
 
-	
 	public String createExcel() throws IOException {
 		String headTitle[] = { "月日", "チャージ", "車種", "使った線", "乗車範囲", "", "", "目的", "来る費", "帰る費", "備考" };
 		int columnWidth[] = { 3000, 2500, 6000, 5000, 3000, 1500, 3000, 2000, 2000, 2000, 6000 };
@@ -357,7 +355,14 @@ public final class EmployeeAction {
 		File file = new File(excelFolderPath);
 		HSSFWorkbook hwb = null;
 		HSSFSheet sheet = null;
+		HSSFRow rowhead;
 
+		/*
+		 * 作成するファイルがあるかどうかチェックする。 エクセルファイルない場合は 新しい.xlsファイルを作って新しい「sheet」 を作ります。
+		 * エクセルファイルある場合は エクセルファイルの中に次作成する「sheet」がもうあるかどうかチェックします。
+		 * それから、作成する「sheet」がある場合は作成しなくてその「sheet」を取って更新します。
+		 * 「sheet」がない場合は新しいのを作成します。
+		 */
 		if (file.exists()) {
 			try {
 				FileInputStream is = new FileInputStream(file);
@@ -366,22 +371,28 @@ public final class EmployeeAction {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			if (hwb.getSheetName(hwb.getNumberOfSheets() - 1).equals(year + "年 " + month + "月")) {
+			int status = 0;
+			for (int i = 0; i < hwb.getNumberOfSheets(); i++) {
+				if (hwb.getSheetName(i).equals(year + "年 " + month + "月")) {
+					status = 1;
+					continue;
+				}
+			}
+			if (status == 1) {
 				sheet = hwb.getSheet(year + "年 " + month + "月");
 			} else {
 				sheet = hwb.createSheet(year + "年 " + month + "月");
 			}
 		} else {
-
 			hwb = new HSSFWorkbook();
-
 			sheet = hwb.createSheet(year + "年 " + month + "月");
 		}
+		
+		/*「sheet」の中にある「cell」のstyleを作ること*/
 		HSSFCellStyle style = hwb.createCellStyle();
-
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
-		HSSFRow rowhead;
+		/*「row　0」を作ってその「row」の中に「cell」を作って「cell」の中にデータを書きこと*/
 		rowhead = sheet.createRow(0);
 		for (int i = 0; i < headTitle.length; i++) {
 			Cell cell = rowhead.createCell(i);
@@ -389,13 +400,16 @@ public final class EmployeeAction {
 			cell.setCellStyle(style);
 		}
 
+		/*「row 0」の「cell 4」から「cell 6」までをマージすること*/
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 4, 6));
 
+		/* sheet.setColumnWidth(0, 3000); */
+		/*「row 0」の「cell」の幅（width）を設定すること*/
 		for (int i = 0; i < columnWidth.length; i++) {
 			sheet.setColumnWidth(i, columnWidth[i]);
 		}
-		/* sheet.setColumnWidth(0, 3000); */
 
+		/*DBからデータを取って「row」を作って各「row」の中に「cell」を作って各「cell」の中にデータを入れること*/
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		int index = 1;
 		for (Transporation t : monthlyTranspoList) {
@@ -413,17 +427,13 @@ public final class EmployeeAction {
 			rowhead.createCell(10).setCellValue(t.getT_remarks());
 			index++;
 		}
-
 		FileOutputStream fileOut = new FileOutputStream(excelFolderPath);
 		hwb.write(fileOut);
 		fileOut.close();
-		/*ByteArrayOutputStream obs = new ByteArrayOutputStream();
-		hwb.write(obs);
-		byte[] outArray = obs.toByteArray();
-		HttpServletResponse response = */
-		
+
+		// 作成したエクセルファイルをダウンロードする
 		fileInputStream = new FileInputStream(new File(filePath + "\\ExcelFiles\\" + employee.getName() + ".xls"));
-		filename = employee.getName()+".xls";
+		filename = employee.getName() + ".xls";// ダウンロードファイル名前のなめにstruts.xmlに送ること
 		return ActionSupport.SUCCESS;
 	}
 
@@ -624,8 +634,5 @@ public final class EmployeeAction {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-
-	
-	
 
 }
