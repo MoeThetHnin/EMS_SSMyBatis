@@ -9,7 +9,7 @@
 	<div style="width: 100%;">
 		<div style="text-align: center;">
 			<h2>株式会社アンスール</h2>
-			<h3>従業員管理システムアドミン側</h3>
+			<h3>従業員管理システムアドミン側sdaf</h3>
 		</div>
 		<div style="width: 80%; margin: 1% auto;">
 			<a style="float: right; color: gray; text-decoration: none;"
