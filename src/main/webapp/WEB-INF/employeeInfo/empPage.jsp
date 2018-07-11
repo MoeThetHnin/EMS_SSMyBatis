@@ -122,8 +122,9 @@
 						<td>乗車範囲</td>
 						<td style="width: 20%;"><input type="text"
 							name="transpo.t_kuru_eki" /></td>
-						<td style="text-align: center;">&lt;=&gt;</td>
-						<td><input type="text" name="transpo.t_kaeru_eki" /></td>
+						<td style="text-align: left;">から</td>
+						<td><input type="text" name="transpo.t_kaeru_eki" />まで</td>
+						
 
 					</tr>
 

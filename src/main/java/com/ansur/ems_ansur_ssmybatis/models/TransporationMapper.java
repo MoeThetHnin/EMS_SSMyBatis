@@ -35,15 +35,15 @@ public interface TransporationMapper {
 	@Select("select * from transporation where emp_id=#{emp_id}")
 	List<Transporation> getTranspoListByEmpId(String emp_id);
 
-	@Select("select sum(t_kuru_charge) from transporation where emp_id=#{emp_id}")
-	Integer totalKuru(String emp_id);
+	@Select("select sum(t_kuru_charge) from transporation where extract(month from t_date)=#{param1} and extract(year from t_date)=#{param2} and emp_id=#{param3}")
+	Integer totalKuru(Integer param1, Integer param2, String param3);
 	
-	@Select("select sum(t_kaeru_charge) from transporation where emp_id=#{emp_id}")
-	Integer totalKaeru(String emp_id);
+	@Select("select sum(t_kaeru_charge) from transporation where extract(month from t_date)=#{param1} and extract(year from t_date)=#{param2} and emp_id=#{param3}")
+	Integer totalKaeru(Integer param1, Integer param2, String param3);
 
 
-	@Select("select sum(t_charge) from transporation")
-	Integer totalCharge();
+	@Select("select sum(t_charge) from transporation where extract(month from t_date)=#{param1} and extract(year from t_date)=#{param2} and emp_id=#{param3}")
+	Integer totalCharge(Integer param1, Integer integer, String param3);
 
 
 	@Select("select * from transporation where extract(month from t_date)=#{param1} and extract(year from t_date)=#{param2} and emp_id=#{param3}")

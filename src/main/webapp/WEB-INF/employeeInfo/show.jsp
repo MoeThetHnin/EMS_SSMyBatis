@@ -73,8 +73,7 @@
 										<s:param name="emp_id">${employee.emp_id}</s:param>
 										<s:param name="p2">${employee.currentDate}</s:param>
 									</s:url>
-							">Download
-				Excel</a>
+							">PDFファイルをダウンロード</a>
 
 		</div>
 		<div

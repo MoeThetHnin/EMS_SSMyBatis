@@ -47,7 +47,7 @@ public class TransporationAction {
 	private int total;
 	
 
-	//Œğ’Ê”ïŠ–@ì¬‚·‚é‚½‚ß‚É
+	//ï¿½ï¿½Ê”ïŠï¿½@ï¿½ì¬ï¿½ï¿½ï¿½é‚½ï¿½ß‚ï¿½
 	public String transportInsert() {
 		tMapper.insertTranspoInfo(getTranspo());
 		ekiOperatorList = eoMapper.getEONameAndNumberList();
@@ -58,10 +58,10 @@ public class TransporationAction {
 		transpo.setT_line("");
 		transpo.setT_operator("");
 	
-		int totalCharge = tMapper.totalCharge();
-		int total = tMapper.totalKuru(getEmployee().getEmp_id())+tMapper.totalKaeru(getEmployee().getEmp_id());
-		employee.setTotal_charge(totalCharge);
-		employee.setLeft_charge(totalCharge-total);
+		/*int totalCharge = tMapper.totalCharge();
+		int total = tMapper.totalKuru(getEmployee().getEmp_id())+tMapper.totalKaeru(getEmployee().getEmp_id());*/
+	/*	employee.setTotal_charge(totalCharge);
+		employee.setLeft_charge(totalCharge-total);*/
 	
 	
 		return ActionSupport.SUCCESS;
