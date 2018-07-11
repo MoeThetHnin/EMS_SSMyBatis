@@ -16,8 +16,12 @@ public class Transporation {
 	private int t_kuru_charge;
 	private int t_kaeru_charge;
 	private String t_remarks;
+	private String t_commutingType;
+	private int t_commutingFee;
 	
 	private List<String> t_logo_name;
+	
+	
 	
 	
 	
@@ -99,9 +103,18 @@ public class Transporation {
 	public void setT_logo_name(List<String> t_logo_name) {
 		this.t_logo_name = t_logo_name;
 	}
-	
-	
-	
+	public String getT_commutingType() {
+		return t_commutingType;
+	}
+	public void setT_commutingType(String t_commutingType) {
+		this.t_commutingType = t_commutingType;
+	}
+	public int getT_commutingFee() {
+		return t_commutingFee;
+	}
+	public void setT_commutingFee(int t_commutingFee) {
+		this.t_commutingFee = t_commutingFee;
+	}
 	
 	
 }

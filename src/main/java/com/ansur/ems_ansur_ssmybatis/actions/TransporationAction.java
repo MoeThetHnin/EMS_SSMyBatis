@@ -1,6 +1,9 @@
 package com.ansur.ems_ansur_ssmybatis.actions;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,7 @@ public class TransporationAction {
 
 	private Transporation transpo;
 	
-	private List<Transporation> transpoList;
+	private List<Transporation> monthlyTranspoList;
 	
 	private List<EkiOperator> ekiOperatorList;
 	
@@ -46,24 +49,39 @@ public class TransporationAction {
 	
 	private int total;
 	
+	
+	DateFormat monthFormat = new SimpleDateFormat("MM");
+	DateFormat yearFormat = new SimpleDateFormat("yyyy");
+	String month = monthFormat.format(new Date());
+	String year = yearFormat.format(new Date());
+	
 
-	//��ʔ�@�쐬���邽�߂�
+	
 	public String transportInsert() {
+		
+		
+		
+		int amount = transpo.getT_commutingFee()*Integer.valueOf(transpo.getT_commutingType());
+		
+		
+		transpo.setT_commutingFee(amount);
 		tMapper.insertTranspoInfo(getTranspo());
 		ekiOperatorList = eoMapper.getEONameAndNumberList();
-		transpoList = tMapper.getTranspoListByEmpId(getTranspo().getEmp_id());
+		monthlyTranspoList = tMapper.getMonthlyTranspoListByEmpId(Integer.valueOf(month), Integer.valueOf(year),transpo.getEmp_id());
 		
 		employee = empMapper.getEmployeeByEmpId(getTranspo().getEmp_id());
 		
 		transpo.setT_line("");
 		transpo.setT_operator("");
 	
-		/*int totalCharge = tMapper.totalCharge();
-		int total = tMapper.totalKuru(getEmployee().getEmp_id())+tMapper.totalKaeru(getEmployee().getEmp_id());*/
-	/*	employee.setTotal_charge(totalCharge);
-		employee.setLeft_charge(totalCharge-total);*/
-	
-	
+		int totalCharge = tMapper.totalCharge(Integer.valueOf(month), Integer.valueOf(year), transpo.getEmp_id());
+		int totalFee = tMapper.totalFee(Integer.valueOf(month), Integer.valueOf(year), transpo.getEmp_id());
+		/*int total = tMapper.totalKuru(Integer.valueOf(month), Integer.valueOf(year), transpo.getEmp_id())
+				+ tMapper.totalKaeru(Integer.valueOf(month), Integer.valueOf(year), transpo.getEmp_id());*/
+		employee.setTotal_charge(totalCharge);
+		/*employee.setLeft_charge(totalCharge-total);*/
+		employee.setTotal_pay(totalFee);
+		
 		return ActionSupport.SUCCESS;
 	}
 
@@ -78,16 +96,22 @@ public class TransporationAction {
 	}
 	
 	
-	public List<Transporation> getTranspoList() {
-		return transpoList;
+	
+	
+	
+	
+	public List<Transporation> getMonthlyTranspoList() {
+		return monthlyTranspoList;
 	}
 
-	public void setTranspoList(List<Transporation> transpoList) {
-		this.transpoList = transpoList;
+
+
+	public void setMonthlyTranspoList(List<Transporation> monthlyTranspoList) {
+		this.monthlyTranspoList = monthlyTranspoList;
 	}
-	
-	
-	
+
+
+
 	public List<String> getSubwayOperators() {
 		return subwayOperators;
 	}

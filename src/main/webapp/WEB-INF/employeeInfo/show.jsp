@@ -110,13 +110,12 @@
 				<tr style="font-size: 12px; background-color: #d2d2d2;">
 					<th style="width: 10%;">月日</th>
 					<th style="width: 5%;">チャージ</th>
-					<th style="width: 10%;">車種</th>
-					<th style="width: 10%;">使った線</th>
+					<th style="width: 13%;">車種</th>
+					<th style="width: 12%;">使った線</th>
 					<th colspan="3">乗車範囲</th>
-					<th style="width: 10%;">目的</th>
-					<th style="width: 5%;">行く費</th>
-					<th style="width: 5%;">帰る費</th>
-					<th style="width: 40%;">備考</th>
+					<th style="width: 15%;">目的</th>
+					<th style="width: 5%;">通勤費</th>
+					<th style="width: 35%;">備考</th>
 
 				</tr>
 				<c:forEach var="e" varStatus="s" items="${monthlyTranspoList}">
@@ -124,15 +123,20 @@
 						<td style="width: 10%;"><fmt:formatDate value="${e.t_date}"
 								pattern="dd-MM-yy" /></td>
 						<td style="width: 5%;">${e.t_charge}</td>
-						<td style="width: 10%;">${e.t_operator }</td>
-						<td style="width: 10%;">${e.t_line }</td>
+						<td style="width: 13%;">${e.t_operator }</td>
+						<td style="width: 12%;">${e.t_line }</td>
 						<td style="width: 5%;">${e.t_kuru_eki}</td>
-						<td style="width: 5%;">&lt;=&gt;</td>
+						<td style="width: 5%;"><c:if
+								test="${e.t_commutingType == 1 }">
+								=&gt;
+							</c:if> <c:if test="${e.t_commutingType == 2 }">
+								&lt;=&gt;
+							</c:if></td>
 						<td style="width: 5%;">${e.t_kaeru_eki}</td>
-						<td style="width: 10%;">${e.t_purpose}</td>
-						<td style="width: 5%;">${e.t_kuru_charge}</td>
-						<td style="width: 5%;">${e.t_kaeru_charge }</td>
-						<td style="width: 40%;">${e.t_remarks }</td>
+						<td style="width: 15%;">${e.t_purpose}</td>
+						<td style="width: 5%;">${e.t_commutingFee}</td>
+
+						<td style="width: 35%;">${e.t_remarks }</td>
 					</tr>
 				</c:forEach>
 			</table>
