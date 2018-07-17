@@ -24,14 +24,19 @@
 
 	<div style="width: 100%;">
 		<div style="width: 75%; margin: 1% auto;">
-			<div
-				style="width: 35%; height: 180px; float: left; border: 1px solid gray;">
-				<table border="0">
+			<div style="width: 35%; height: 180px; float: left;">
+				<img alt="" src="<%=request.getContextPath()%>/image/ansurLogo.jpg"
+					style="width: 100%;">
+				<h2 style="text-align: center; margin: -10px; color: gray;">株式会社アンスール</h2>
+			</div>
+			<div style="border: 1px solid gray; float: right; width: 40%;">
+				<table border="0" style="width: 90%; margin: 1% auto;">
 					<tr>
-						<td><img style="width: 150px; height: 150px;"
+						<td><img
+							style="vertical-align: middle; width: 100px; height: 100px;"
 							src="file/EmployeeProfilePicture/${employee.img_name}"></td>
 						<td valign="top">
-							<h4>株式会社会社アンスール</h4> <label
+							<h5 style="margin: 0px; color: #2bbbbb;">株式会社会社アンスール</h5> <label
 							style="display: block; float: left; font-size: 10px; width: 30%;">名前：</label>
 							<label style="display: block; font-size: 10px; width: 100%;">${employee.name}</label>
 							<label
@@ -49,27 +54,23 @@
 						</td>
 					</tr>
 				</table>
-				<a style="font-size: 12px; text-align: right; display: block;"
-					href="<s:url action="empEdit.action" ><s:param name="emp_id">${employee.emp_id}</s:param></s:url>">編集</a>
+				<a
+					style="font-size: 12px; display: block; margin: 0% 2%; text-align: right; text-decoration: none; color:#b00000;"
+					href="<s:url action="empEdit" ><s:param name="emp_id">${employee.emp_id}</s:param></s:url>">編集</a>
 			</div>
-			<h3 style="text-align: center;">${employee.name}</h3>
-			<h4 style="text-align: center;">${employee.emp_id}</h4>
-			<h4 style="text-align: center;">${employee.department}</h4>
-			<h4 style="text-align: center;">${employee.post}(${employee.status})</h4>
 
-
-			<a style="float: right; color: gray; text-decoration: none;"
-				href="<s:url action="logout.action"/>"> ログアウト</a>
 		</div>
-
+		<a
+			style="display:block; clear: right; color: gray; font-size: 12px; text-decoration: none; width:90%; margin: 0% auto; text-align: right;"
+			href="<s:url action="empLogout"/>"> ログアウト</a>
 		<div
-			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
+			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right; border-top: 20px solid #2bbbbb;">
+
 			<h4 style="text-align: center;">株式会社アンスール交通費支払登録</h4>
 			<s:form action="tranPortInsert">
 				<input type="hidden" name="transpo.emp_id"
 					value="${employee.emp_id}" />
 				<table border="0" style="margin: 2% auto; width: 70%;">
-
 					<tr>
 						<td style="width: 20%">月日</td>
 						<td><input type="text" name="transpo.t_date" id="datepicker" /></td>
@@ -80,13 +81,6 @@
 						<td><input type="text" name="transpo.t_charge" /></td>
 						<td colspan="2"></td>
 					</tr>
-					<%-- <tr>
-						<!-- <td style="width: 17%">車種</td> -->
-						<td><s:select list="subwayOperators" name="transpo.t_line"
-								label="車種" headerKey="-1" headerValue="使った地下鉄を選択" /></td>
-						<!-- <input type="text" name="transpo.t_line" /></td> -->
-					</tr> --%>
-
 					<tr>
 						<td>使ったオペレータ</td>
 						<td colspan="3"><c:forEach var="e" varStatus="s"
@@ -99,13 +93,6 @@
 					</tr>
 					<tr>
 						<td>使った線</td>
-						<%-- <td colspan="3"><c:forEach var="employee" varStatus="s"
-								items="${ekiLineListMetro}">
-								<input type="checkbox" name="transpo.t_line"
-									value="${employee.el_line_logo_name}">
-								<img style="width: 20px; height: 20px;"
-									src="file/${employee.el_line_logo_name}">
-							</c:forEach></td> --%>
 						<td><input type="text" name="transpo.t_line" /></td>
 					</tr>
 					<tr>
@@ -157,30 +144,15 @@
 						<td colspan="3"><textarea name="transpo.t_remarks"
 								style="width: 100%;"></textarea></td>
 					</tr>
-					<%-- <tr>
-					
-					<td colspan="7" align="right"><s:submit value="インサート" style="width:100%;" /></td>
-					</tr> --%>
-
 				</table>
 				<div style="margin: 2% auto; width: 50%; text-align: right;">
 					<s:submit value="インサート" style="text-align:right;" />
 				</div>
 			</s:form>
 		</div>
-		<%-- <div
-			style="width: 90%; margin: 1% auto; clear: right; text-align: right;">
-			<a style="font-size: 12px; text-align: right; display: block;"
-				href="<s:url action="createExcel.action" >
-										<s:param name="emp_id">${employee.emp_id}</s:param>
-										<s:param name="p2">${employee.currentDate}</s:param>
-									</s:url>
-							">Download
-				Excel</a>
 
-		</div> --%>
 		<div
-			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right;">
+			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right; border-top: 20px solid #2bbbbb;">
 			<h4 style="text-align: center;">株式会社アンスール交通費支払申請書</h4>
 			<table style="width: 98%; margin: 1% auto; border: 1px solid gray;">
 				<tr>
@@ -248,13 +220,13 @@
 					for (int i = 1; i < 13; i++) {
 				%>
 				<a style="font-size: 12px; display: block; cursor: pointer;"
-					href="<s:url action="getTranspoListByMonth.action" >
+					href="<s:url action="getTranspoListByMonth" >
 										<s:param name="p1">${employee.emp_id}</s:param>
 										<s:param name="p2">0<%=i %></s:param>
 									</s:url>
 							">
 					<label
-					style="cursor:pointer; border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
+					style="cursor: pointer; border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
 				</a>
 				<%
 					}

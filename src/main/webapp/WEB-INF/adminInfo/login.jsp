@@ -10,10 +10,15 @@
 <body>
 	<div style="widht: 100%;">
 		<div style="text-align: center;">
-			<h2>株式会社アンスール</h2>
-			<h3>従業員管理システムアドミン側</h3>
+			<!-- <h2>株式会社アンスール</h2>
+			<h3>従業員管理システムアドミン側</h3> -->
+			<img alt="" src="<%=request.getContextPath()%>/image/ansurLogo.jpg"
+				style="width: 30%; margin-top: 3%;">
+			<h2 style="margin: -10px; color: gray;">株式会社アンスール</h2>
 		</div>
-		<div style="width: 40%; border: 1px solid gray; margin: 5% auto;">
+		<div
+			style="width: 40%; border: 1px solid gray; margin: 5% auto; border-top: 30px solid #2bbbbb; border-radius:10px 10px 0% 0%;">
+			<h3 style="text-align: center; margin-bottom: -10px; color: gray;">従業員管理システムアドミン側</h3>
 			<s:form action="login" namespace="/admin">
 				<label
 					style="display: block; color: red; font-size: 12px; text-align: center; margin: 1%;">${errorMessage_one}</label>
@@ -29,9 +34,10 @@
 					</tr>
 				</table>
 			</s:form>
-			
-			
+
+
 		</div>
+
 	</div>
 
 

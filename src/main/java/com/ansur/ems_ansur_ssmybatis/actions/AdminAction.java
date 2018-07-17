@@ -19,6 +19,7 @@ public class AdminAction {
 
 	public String login() {
 		if (admin.getAdmin_id().equals("admin") && admin.getAdmin_password().equals("@nsur"))
+			
 			return ActionSupport.SUCCESS;
 
 		return ActionSupport.ERROR;

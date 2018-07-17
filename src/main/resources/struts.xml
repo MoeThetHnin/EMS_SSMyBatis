@@ -4,10 +4,10 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 
-	<constant name="struts.devMode" value="false" />
+	<constant name="struts.devMode" value="true" />
 	<constant name="struts.custom.i18n.resources"
 		value="application" />
-	
+
 	<package name="" extends="struts-default" namespace="/">
 		<action name="employee"
 			class="com.ansur.ems_ansur_ssmybatis.actions.IndexAction">
@@ -23,20 +23,25 @@
 			method="logout">
 			<result name="success">/WEB-INF/adminInfo/login.jsp</result>
 		</action>
+		
 	</package>
+	
 
 	<!-- アドミン側のパッケージ -->
 	<package name="admin" extends="struts-default"
 		namespace="/admin">
-		
+
 		<action name="index"
-			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">			
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
 			<result name="success">/WEB-INF/adminInfo/adminPage.jsp</result>
-		</action>		
+		</action>
 		<action name="login"
 			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
-			method="login">			
-			<result name="success">/WEB-INF/adminInfo/adminPage.jsp</result>
+			method="login">
+			<result name="success" type="redirectAction">
+				<param name="actionName">empManage</param>
+				<param name="namespace">/employee</param>
+			</result>
 			<result name="error">/WEB-INF/adminInfo/login.jsp</result>
 		</action>
 		<action name="empManage"
@@ -71,10 +76,10 @@
 			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
 			<result name="error">/WEB-INF/employeeInfo/login.jsp</result>
 		</action>
-		<action name="logout"
+		<action name="empLogout"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="logout">
-			<result name="success">index.jsp</result>
+			<result name="success">/WEB-INF/employeeInfo/login.jsp</result>
 		</action>
 		<action name="adminLogout"
 			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
@@ -94,7 +99,7 @@
 		</action>
 		<action name="empEditByAdmin"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="empEditByAdminPage">			
+			method="empEditByAdminPage">
 			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>
 		</action>
 		<action name="empDelete"
@@ -102,9 +107,18 @@
 			method="empDelete">
 			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
 		</action>
+		
+		
+		<action name="departmentManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">deptManage</param>
+				<param name="namespace">/department</param>
+			</result>
+		</action>
 		<!-- 管理画面へ スタット -->
-		
-		
+
+
 		<action name="postManage"
 			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction">
 			<result name="success">/WEB-INF/postInfo/list.jsp</result>
@@ -186,7 +200,7 @@
 
 
 		<!--編集画面へ スタット -->
-		
+
 		<action name="empEdit"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="empEditPage">
@@ -242,9 +256,9 @@
 			method="empPhotoChange">
 			<result name="success">/WEB-INF/employeeInfo/empEdit.jsp</result>
 		</action>
-		<action name="updateCancel"
+		<action name="back"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="updateCancel">
+			method="back">
 			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
 		</action>
 
@@ -278,7 +292,7 @@
 
 
 		<!-- 削除 スタット -->
-		
+
 		<action name="departmentDelete"
 			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
 			method="departmentDelete">
@@ -357,7 +371,7 @@
 				<param name="namespace">/admin</param>
 			</result>
 		</action>
-		
+
 	</package>
 	<package name="ekiInfo" extends="struts-default"
 		namespace="/eki">
