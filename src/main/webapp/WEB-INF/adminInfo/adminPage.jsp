@@ -17,19 +17,19 @@
 		</div>
 		<div
 			style="width: 80%; margin: 1% auto; border: 1px solid gray; clear: right;">
-			<a href="<s:url action="empManage.action"/>"
+			<a href="<s:url action="empManage"/>"
 				style="text-decoration: none; color: gray;">
 				<div
 					style="width: 21%; margin: 1% 1% 1% 3%; border: 1px solid gray; background-color: #f1f1f1; text-align: center; float: left;">
 					<h4>社員管理</h4>
 				</div>
-			</a> <a href="<s:url action="departmentManage.action"/>"
+			</a> <a href="<s:url action="departmentManage"/>"
 				style="text-decoration: none; color: gray;">
 				<div
 					style="width: 21%; margin: 1% 1% 1% 2%; border: 1px solid gray; background-color: #f1f1f1; text-align: center; float: left;">
 					<h4>部門管理と役職管理</h4>
 				</div>
-			</a> <a href="<s:url action="ekiManage.action"/>"
+			</a> <a href="<s:url action="ekiManage"/>"
 				style="text-decoration: none; color: gray;">
 				<div
 					style="width: 21%; margin: 1% 1% 1% 2%; border: 1px solid gray; background-color: #f1f1f1; text-align: center; float: left;">

@@ -17,7 +17,7 @@
 		</div>
 		<div style="width: 80%; margin: 1% auto;">
 			<a style="float: left; color: gray; text-decoration: none;"
-				href="<s:url action="home.action"/>"> ホーム</a> <a
+				href="<s:url action="home"/>"> ホーム</a> <a
 				style="float: right; color: gray; text-decoration: none;"
 				href="<s:url action="logout.action"/>"> ログアウト</a>
 		</div>

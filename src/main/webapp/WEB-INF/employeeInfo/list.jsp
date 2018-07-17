@@ -17,7 +17,7 @@
 		</div>
 		<div style="width: 80%; margin: 1% auto;">
 			<a style="float: left; color: gray; text-decoration: none;"
-				href="<s:url action="home.action"/>"> ホーム</a> <a
+				href="<s:url action="home"/>"> ホーム</a> <a
 				style="float: right; color: gray; text-decoration: none;"
 				href="<s:url action="logout.action"/>"> ログアウト</a>
 		</div>
@@ -26,7 +26,7 @@
 			<h4 style="text-align: center;">社員管理</h4>
 		</div>
 		<div style="width: 50%; margin: 1px auto; clear: right;">
-			<s:form action="empInsert" enctype="multipart/form-data">
+			<s:form action="insert" enctype="multipart/form-data">
 				<label
 					style="display: block; color: red; font-size: 12px; text-align: center; margin: 1%;">${errorMessage_one}</label>
 				<table style="border: 1px solid gray; width: 70%; margin: 2% auto;">
@@ -118,13 +118,13 @@
 						<td><c:out value="${e.address }" /></td>
 						<td><a
 							style="font-size: 12px; text-align: right; display: block;"
-							href="<s:url action="empEditByAdmin.action" >
+							href="<s:url action="empEditByAdmin" >
 										<s:param name="emp_id">${e.emp_id}</s:param>
 										
 									</s:url>
 							">編集</a></td>
 						<td><a
-							href="<s:url action="empDelete.action">
+							href="<s:url action="empDelete">
 						<s:param name="id">${e.id}</s:param>
 						</s:url>">削除</a></td>
 

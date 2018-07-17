@@ -5,34 +5,37 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Refresh" content="7;URL=employee">
+<style>
+.loader {
+	text-align: center;
+	border: 30px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 30px solid #2bbbbb;
+	width: 30%;
+	height: 300px;
+	margin: 5% auto 1% auto;
+	padding: 3% 2% 0% 2%;
+	animation:spin 7s linear infinite;
+}
+
+@keyframes spin { 
+	0%{	transform: rotate(0deg); }
+	100%{transform: rotate(360deg);}
+}
+h1, h2 {
+	color: gray;
+}
+</style>
 </head>
 <body>
-	<div style="widht: 100%;">
-		<div style="text-align: center;">
-			<h2>株式会社アンスール</h2>
-			<h3>従業員管理システム</h3>
-		</div>
-		<div style="width: 40%; border: 1px solid gray; margin: 5% auto;">
-			<s:form action="empLogin">
-				<label
-					style="display: block; color: red; font-size: 12px; text-align: center; margin: 1%;">${errorMessage_one}</label>
-				<table style="width: 50%; margin: 3% auto;">
-					<tr>
-						<td><s:textfield name="employee.emp_id" label="従業員 ID"></s:textfield></td>
-					</tr>
-					<tr>
-						<td><s:password name="employee.password" label="パスワード"></s:password></td>
-					</tr>
-					<tr>
-						<td><s:submit value="ログイン" style="width:100%; height:25px;"></s:submit></td>
-					</tr>
-				</table>
-			</s:form>
+	<div class="loader">
+		<div style="">
+			<img alt="" src="<%=request.getContextPath()%>/image/ansurLogo.jpg"
+				style="width: 70%; margin-top: 3%;">
+			<h1>株式会社アンスール</h1>
+			<h2 style="color: #2bbbbb;">従業員管理システム</h2>
 		</div>
 	</div>
-
-
-
-
 </body>
 </html>

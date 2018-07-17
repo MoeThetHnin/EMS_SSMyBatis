@@ -144,7 +144,7 @@
 				<%
 					for (int i = 1; i < 13; i++) {
 				%>
-				<a style="font-size: 12px; display: block;"
+				<a style="font-size: 12px; display: block; cursor: pointer;"
 					href="<s:url action="getTranspoListByMonth.action" >
 										<s:param name="p1">${employee.emp_id}</s:param>
 										<s:param name="p2">0<%=i %></s:param>
@@ -152,7 +152,7 @@
 									</s:url>
 							">
 					<label
-					style="border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
+					style="cursor:pointer; border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
 				</a>
 				<%
 					}

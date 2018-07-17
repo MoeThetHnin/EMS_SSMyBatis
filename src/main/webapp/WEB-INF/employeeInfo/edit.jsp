@@ -17,9 +17,9 @@
 		</div>
 		<div style="width: 80%; margin: 1% auto;">
 			<a style="color: gray; text-decoration: none;"
-				href="<s:url action="empManage.action"/>">戻り</a><a
+				href="<s:url action="empManage"/>">戻り</a><a
 				style="float: right; color: gray; text-decoration: none;"
-				href="<s:url action="logout.action"/>"> ログアウト</a>
+				href="<s:url action="adminLogout"/>"> ログアウト</a>
 		</div>
 		<div style="width: 80%; margin: 1% auto; clear: right;">
 			<hr />

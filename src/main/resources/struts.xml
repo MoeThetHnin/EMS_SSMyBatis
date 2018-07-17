@@ -4,40 +4,107 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 
-
 	<constant name="struts.devMode" value="false" />
-<constant name="struts.custom.i18n.resources" value="application" />
+	<constant name="struts.custom.i18n.resources"
+		value="application" />
 	
-	<package name="default" extends="struts-default">
-
-		<action name="empLogin"
-			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="empLogin">
-			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
-			<result name="login">/WEB-INF/home/welcome.jsp</result>
-			<result name="error">index.jsp</result>
+	<package name="" extends="struts-default" namespace="/">
+		<action name="employee"
+			class="com.ansur.ems_ansur_ssmybatis.actions.IndexAction">
+			<result name="success">/WEB-INF/employeeInfo/login.jsp</result>
 		</action>
+		<action name="admin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
+			method="welcome">
+			<result name="success">/WEB-INF/adminInfo/login.jsp</result>
+		</action>
+		<action name="logout"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
+			method="logout">
+			<result name="success">/WEB-INF/adminInfo/login.jsp</result>
+		</action>
+	</package>
 
+	<!-- アドミン側のパッケージ -->
+	<package name="admin" extends="struts-default"
+		namespace="/admin">
+		
+		<action name="index"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">			
+			<result name="success">/WEB-INF/adminInfo/adminPage.jsp</result>
+		</action>		
+		<action name="login"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
+			method="login">			
+			<result name="success">/WEB-INF/adminInfo/adminPage.jsp</result>
+			<result name="error">/WEB-INF/adminInfo/login.jsp</result>
+		</action>
+		<action name="empManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">empManage</param>
+				<param name="namespace">/employee</param>
+			</result>
+		</action>
+		<action name="departmentManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">deptManage</param>
+				<param name="namespace">/department</param>
+			</result>
+		</action>
+		<action name="ekiManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">ekiManage</param>
+				<param name="namespace">/eki</param>
+			</result>
+		</action>
+	</package>
+
+	<!-- 社員に関係パッケージ -->
+	<package name="employeeInfo" extends="struts-default"
+		namespace="/employee">
+		<action name="login"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="login">
+			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
+			<result name="error">/WEB-INF/employeeInfo/login.jsp</result>
+		</action>
 		<action name="logout"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="logout">
 			<result name="success">index.jsp</result>
 		</action>
-
-		<action name="home"
-			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction">
-			<result name="success">/WEB-INF/home/welcome.jsp</result>
+		<action name="adminLogout"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction"
+			method="logout">
+			<result name="success">/WEB-INF/adminInfo/login.jsp</result>
 		</action>
-
-		<!-- 管理画面へ スタット -->
 		<action name="empManage"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction">
 			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
 		</action>
-		<action name="departmentManage"
-			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction">
-			<result name="success">/WEB-INF/departmentInfo/list.jsp</result>
+		<action name="home"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/admin</param>
+			</result>
 		</action>
+		<action name="empEditByAdmin"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empEditByAdminPage">			
+			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>
+		</action>
+		<action name="empDelete"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
+			method="empDelete">
+			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
+		</action>
+		<!-- 管理画面へ スタット -->
+		
+		
 		<action name="postManage"
 			class="com.ansur.ems_ansur_ssmybatis.actions.PostAction">
 			<result name="success">/WEB-INF/postInfo/list.jsp</result>
@@ -58,9 +125,9 @@
 
 
 		<!-- 作成 スタット -->
-		<action name="empInsert"
+		<action name="insert"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="empInsert">
+			method="insert">
 			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
 			<result name="error">/WEB-INF/employeeInfo/list.jsp</result>
 		</action>
@@ -109,7 +176,7 @@
 			<result name="error">/WEB-INF/employeeInfo/empPage.jsp</result>
 		</action>
 		<!-- 作成 エンド -->
-		
+
 		<action name="empShow"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="empShow">
@@ -119,11 +186,7 @@
 
 
 		<!--編集画面へ スタット -->
-		<action name="empEditByAdmin"
-			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="empEditByAdminPage">
-			<result name="success">/WEB-INF/employeeInfo/edit.jsp</result>
-		</action>
+		
 		<action name="empEdit"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="empEditPage">
@@ -215,11 +278,7 @@
 
 
 		<!-- 削除 スタット -->
-		<action name="empDelete"
-			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
-			method="empDelete">
-			<result name="success">/WEB-INF/employeeInfo/list.jsp</result>
-		</action>
+		
 		<action name="departmentDelete"
 			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction"
 			method="departmentDelete">
@@ -236,10 +295,10 @@
 			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
 		</action>
 		<!-- 削除 エンド -->
-		
-		
-		
-		
+
+
+
+
 		<action name="createExcel"
 			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="createExcel">
@@ -251,15 +310,15 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
-		
-		
+
+
 		<action name="getTranspoListByMonth"
-			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction" 
+			class="com.ansur.ems_ansur_ssmybatis.actions.EmployeeAction"
 			method="getTranspoListByMonth">
 			<result name="success">/WEB-INF/employeeInfo/empPage.jsp</result>
 			<result name="login">/WEB-INF/employeeInfo/show.jsp</result>
 		</action>
-		
+
 		<action name="excelToPdf"
 			class="com.ansur.ems_ansur_ssmybatis.actions.FunctionAction"
 			method="excelToPdf">
@@ -270,7 +329,7 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
-		
+
 		<action name="excelToSql"
 			class="com.ansur.ems_ansur_ssmybatis.actions.FunctionAction"
 			method="excelToSql">
@@ -281,8 +340,38 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
-		
 
+
+
+	</package>
+	<package name="departmentInfo" extends="struts-default"
+		namespace="/department">
+		<action name="deptManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.DepartmentAction">
+			<result name="success">/WEB-INF/departmentInfo/list.jsp</result>
+		</action>
+		<action name="home"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/admin</param>
+			</result>
+		</action>
+		
+	</package>
+	<package name="ekiInfo" extends="struts-default"
+		namespace="/eki">
+		<action name="ekiManage"
+			class="com.ansur.ems_ansur_ssmybatis.actions.EkiOperatorAction">
+			<result name="success">/WEB-INF/ekiOperatorInfo/list.jsp</result>
+		</action>
+		<action name="home"
+			class="com.ansur.ems_ansur_ssmybatis.actions.AdminAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/admin</param>
+			</result>
+		</action>
 	</package>
 
 </struts>
