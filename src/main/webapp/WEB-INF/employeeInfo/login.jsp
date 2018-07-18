@@ -5,20 +5,20 @@
 <html>
 <head>
 <meta charset="utf-8" />
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
-	<div style="widht: 100%;">
-		<div style="text-align: center;">
-			<img alt="" src="<%=request.getContextPath()%>/image/ansurLogo.jpg"
-				style="width: 30%; margin-top: 3%;">
-			<h2 style="margin: -10px;">株式会社アンスール</h2>
+	<div class="main_layout">
+		<div class="login_header">
+			<img alt="Ansur"
+				src="<%=request.getContextPath()%>/image/ansurLogo.jpg">
+			<h2>株式会社アンスール</h2>
 		</div>
-		<div style="width: 40%; border: 1px solid gray; margin: 5% auto; border-top: 30px solid #2bbbbb; border-radius:10px 10px 0% 0%;">
+		<div class="login_body">
 			<s:form action="login" namespace="/employee">
-				<label
-					style="display: block; color: red; font-size: 12px; text-align: center; margin: 1%;">${errorMessage_one}</label>
-				<table style="width: 50%; margin: 3% auto;">
+				<label class="error_message">${errorMessage_one}</label>
+				<table>
 					<tr>
 						<td><s:textfield name="employee.emp_id" label="従業員 ID"></s:textfield></td>
 					</tr>
@@ -30,8 +30,6 @@
 					</tr>
 				</table>
 			</s:form>
-
-
 		</div>
 	</div>
 

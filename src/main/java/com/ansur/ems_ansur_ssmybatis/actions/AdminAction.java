@@ -25,9 +25,7 @@ public class AdminAction {
 		return ActionSupport.ERROR;
 	}
 	
-	public String logout() {
-		return ActionSupport.SUCCESS;
-	}
+	
 
 	public Admin getAdmin() {
 		return admin;

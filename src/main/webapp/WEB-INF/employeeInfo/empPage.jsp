@@ -21,58 +21,42 @@
 </script>
 </head>
 <body>
-
-	<div style="width: 100%;">
-		<div style="width: 75%; margin: 1% auto;">
-			<div style="width: 35%; height: 180px; float: left;">
-				<img alt="" src="<%=request.getContextPath()%>/image/ansurLogo.jpg"
-					style="width: 100%;">
-				<h2 style="text-align: center; margin: -10px; color: gray;">株式会社アンスール</h2>
-			</div>
-			<div style="border: 1px solid gray; float: right; width: 40%;">
-				<table border="0" style="width: 90%; margin: 1% auto;">
+	<div class="main_layout">
+		<div class="client_header">
+			<s:include value="/WEB-INF/common/header_logo.jsp"></s:include>
+			<div class="info">
+				<table>
 					<tr>
 						<td><img
-							style="vertical-align: middle; width: 100px; height: 100px;"
 							src="file/EmployeeProfilePicture/${employee.img_name}"></td>
 						<td valign="top">
-							<h5 style="margin: 0px; color: #2bbbbb;">株式会社会社アンスール</h5> <label
-							style="display: block; float: left; font-size: 10px; width: 30%;">名前：</label>
-							<label style="display: block; font-size: 10px; width: 100%;">${employee.name}</label>
-							<label
-							style="display: block; float: left; font-size: 10px; width: 30%;">社員番号：</label><label
-							style="display: block; font-size: 10px; width: 100%;">${employee.emp_id}</label>
-							<label
-							style="display: block; float: left; font-size: 10px; width: 30%;">部門：</label><label
-							style="display: block; font-size: 10px; width: 100%;">${employee.department}</label>
-							<label
-							style="display: block; float: left; font-size: 10px; width: 30%;">役職：</label><label
-							style="display: block; font-size: 10px; width: 100%;">${employee.post}(${employee.status })</label>
-							<label
-							style="display: block; float: left; font-size: 10px; width: 30%;">メール：</label><label
-							style="display: block; font-size: 10px; width: 100%;">${employee.email}</label>
+							<h5 class="m_color">株式会社会社アンスール</h5> <label class="key">名前：</label>
+							<label class="value">${employee.name}</label> <label class="key">社員番号：</label>
+							<label class="value">${employee.emp_id}</label> <label
+							class="key">部門：</label> <label class="value">${employee.department}</label>
+							<label class="key">役職：</label> <label class="value">${employee.post}(${employee.status })</label>
+							<label class="key">メール：</label> <label class="value">${employee.email}</label>
 						</td>
 					</tr>
 				</table>
 				<a
-					style="font-size: 12px; display: block; margin: 0% 2%; text-align: right; text-decoration: none; color:#b00000;"
-					href="<s:url action="empEdit" ><s:param name="emp_id">${employee.emp_id}</s:param></s:url>">編集</a>
+					href="<s:url action="empEdit" >
+							<s:param name="emp_id">${employee.emp_id}</s:param>
+						</s:url>">
+					編集 </a>
 			</div>
-
 		</div>
 		<a
-			style="display:block; clear: right; color: gray; font-size: 12px; text-decoration: none; width:90%; margin: 0% auto; text-align: right;"
+			style="display: block; clear: right; color: gray; font-size: 12px; text-decoration: none; width: 90%; margin: 0% auto; text-align: right;"
 			href="<s:url action="empLogout"/>"> ログアウト</a>
-		<div
-			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right; border-top: 20px solid #2bbbbb;">
-
-			<h4 style="text-align: center;">株式会社アンスール交通費支払登録</h4>
+		<div class="client_body">
+			<h4>株式会社アンスール交通費支払登録</h4>
 			<s:form action="tranPortInsert">
 				<input type="hidden" name="transpo.emp_id"
 					value="${employee.emp_id}" />
-				<table border="0" style="margin: 2% auto; width: 70%;">
+				<table class="table_one">
 					<tr>
-						<td style="width: 20%">月日</td>
+						<td>月日</td>
 						<td><input type="text" name="transpo.t_date" id="datepicker" /></td>
 						<td colspan="2"></td>
 					</tr>
@@ -87,16 +71,15 @@
 								items="${ekiOperatorList}">
 								<input type="checkbox" name="transpo.t_operator"
 									value="${e.eo_name}">
-								<img style="width: 20px; height: 20px;"
-									src="file/EkiOperatorLogo/${e.eo_logo_name}">
+								<img class="img1" src="file/EkiOperatorLogo/${e.eo_logo_name}">
 							</c:forEach></td>
 					</tr>
 					<tr>
 						<td>使った線</td>
 						<td><input type="text" name="transpo.t_line" /></td>
 					</tr>
-					<tr>
-						<td></td>
+					<%-- <tr>
+						<td>sdfas</td>
 						<td colspan="3"><c:forEach var="employee" varStatus="s"
 								items="${ekiLineListToei}">
 								<input type="checkbox" name="transpo.t_line"
@@ -104,7 +87,7 @@
 								<img style="width: 20px; height: 20px;"
 									src="file/${employee.el_line_logo_name}">
 							</c:forEach></td>
-					</tr>
+					</tr> --%>
 					<tr>
 						<td>乗車範囲</td>
 						<td style="width: 20%;"><input type="text"
@@ -124,37 +107,34 @@
 
 						<td></td>
 						<td colspan="3"><input type="radio"
-							name="transpo.t_commutingType" value="1"> <img alt=""
-							src="<%=request.getContextPath()%>/image/oneway.jpg"
-							style="width: 50px;"> <input type="radio"
-							name="transpo.t_commutingType" value="2"> <img alt=""
-							src="<%=request.getContextPath()%>/image/twoway.jpg"
-							style="width: 50px;"></td>
+							name="transpo.t_commutingType" value="1"> <img
+							class="img2" alt=""
+							src="<%=request.getContextPath()%>/image/katamachi.png"> <input
+							type="radio" name="transpo.t_commutingType" value="2"> <img
+							class="img2" alt=""
+							src="<%=request.getContextPath()%>/image/oufuu.png"></td>
 						<!-- <td><input type="text" name="transpo.t_kaeru_charge" /></td> -->
 					<tr>
 					<tr>
 						<td>目標</td>
-						<!-- <td colspan="6"><input  style="width:100%;" type="text" name="transporation.t_purpose" /></td> -->
 						<td colspan="3"><textarea name="transpo.t_purpose"
 								style="width: 100%;"></textarea></td>
 					</tr>
 					<tr>
 						<td>備考</td>
-						<!-- <td colspan="6"><input style="width:100%;" type="text" name="transporation.t_remarks" /></td> -->
 						<td colspan="3"><textarea name="transpo.t_remarks"
 								style="width: 100%;"></textarea></td>
 					</tr>
 				</table>
-				<div style="margin: 2% auto; width: 50%; text-align: right;">
+				<div class="bottom">
 					<s:submit value="インサート" style="text-align:right;" />
 				</div>
 			</s:form>
 		</div>
 
-		<div
-			style="width: 90%; margin: 1% auto; border: 1px solid gray; clear: right; border-top: 20px solid #2bbbbb;">
-			<h4 style="text-align: center;">株式会社アンスール交通費支払申請書</h4>
-			<table style="width: 98%; margin: 1% auto; border: 1px solid gray;">
+		<div class="client_body">
+			<h4>株式会社アンスール交通費支払申請書</h4>
+			<table class="table_two">
 				<tr>
 					<td style="width: 15%;">申請年月日:</td>
 					<td style="width: 30%;">${employee.currentDate}</td>
@@ -181,7 +161,7 @@
 					<td style="width: 30%;">${employee.total_pay}</td>
 				</tr>
 			</table>
-			<table style="width: 98%; margin: 1% auto; border: 1px solid gray;">
+			<table class="table_two">
 				<tr style="font-size: 12px; background-color: #d2d2d2;">
 					<th style="width: 10%;">月日</th>
 					<th style="width: 5%;">チャージ</th>
@@ -191,7 +171,6 @@
 					<th style="width: 15%;">目的</th>
 					<th style="width: 5%;">通勤費</th>
 					<th style="width: 35%;">備考</th>
-
 				</tr>
 				<c:forEach var="e" varStatus="s" items="${monthlyTranspoList}">
 					<tr style="text-align: center; font-size: 12px;">
@@ -215,18 +194,15 @@
 					</tr>
 				</c:forEach>
 			</table>
-			<div style="width: 98%; margin: 1%; text-align: center;">
+			<div class="month">
 				<%
 					for (int i = 1; i < 13; i++) {
 				%>
-				<a style="font-size: 12px; display: block; cursor: pointer;"
-					href="<s:url action="getTranspoListByMonth" >
-										<s:param name="p1">${employee.emp_id}</s:param>
-										<s:param name="p2">0<%=i %></s:param>
-									</s:url>
-							">
-					<label
-					style="cursor: pointer; border: 1px solid gray; display: block; width: 6.1%; background-color: #d1d1d1; color: gray; float: left; margin: 1% 1% 1% 1%;"><%=i%>月</label>
+				<a href="<s:url action="getTranspoListByMonth" >
+							<s:param name="p1">${employee.emp_id}</s:param>
+							<s:param name="p2">0<%=i %></s:param>
+						</s:url>">
+						<label><%=i%>月</label>
 				</a>
 				<%
 					}
